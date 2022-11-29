@@ -1,0 +1,1 @@
+A simple terminal app using a few different APIs and TTY gems to get you all the news you can use. 
