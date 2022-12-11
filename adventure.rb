@@ -1,5 +1,4 @@
 # https://www.youtube.com/watch?v=wMJ6lxgT-mE
-# 28:16
 
 ##################################################################
 ##################################################################
@@ -32,7 +31,7 @@ def roll_dice(number_of_dice, size_of_dice)
   return total
 end
 
-############### DICE ROLLS #########################
+############### DICE ROLLS ###############
 def has_monster?
   if roll_dice(2, 6) >= 8
     true
@@ -57,8 +56,6 @@ def monster_attack?
   end
 end
 
-## Defeat Monster ##
-
 def defeat_monster?
   if roll_dice(2, 6) >= 2
     true
@@ -66,8 +63,6 @@ def defeat_monster?
     false
   end
 end
-
-## Has Treasure ##
 
 def has_treasure?
   if roll_dice(2, 6) >= 1
@@ -77,14 +72,14 @@ def has_treasure?
   end
 end
 
-### Variables
+############### Variables ###############
 number_of_rooms_explored = 1
 treasure_count = 0
 damage_points = 5
 escaped = false
 monster = false
 current_room = ""
-
+############### Gameplay ###############
 # Intro
 puts "You are trapped in a dungeon. See if you can find treasure before you escape!"
 puts "Watch out for monsters! They will get you!"
