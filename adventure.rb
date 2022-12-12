@@ -1,6 +1,6 @@
 # https://www.youtube.com/watch?v=wMJ6lxgT-mE
 
-##################################################################
+###################VERSION 1#################################
 ##################################################################
 #### 1) Check if player is alive
 #### 2) Let the player leave the room
@@ -13,14 +13,34 @@
 ##################################################################
 ##################################################################
 
-## Create Room ##
-def create_room
-  "You are in a room. You see a door."
+###################VERSION 2#################################
+##################################################################
+#### 1) Check if player still has Junior Ranger badge
+#### 2) Let the player leave the park
+#### 3) Check if violation is in the park
+#### 4) Search for treasure
+#### 5) Need different types of parks
+#### 6) Need random number generator
+####7) Determine whether you found treasure // name treasures
+#### 8) Violations deal damage - badge points to zero = game over
+##################################################################
+##################################################################
+
+## Create Park ##
+def create_park
+  "Hello, Junior Ranger! You are just who we need to protect and preserve our National Parks!"
+  # "You are in a room. You see a door."
 end
 
 def treasure
-  ["Garnet", "Amethyst", "Aquamarine", "Diamond", "Emerald", "Alexandrite", "Ruby", "Peridot", "Sapphire", "Rose", "Topaz", "Zircon"].sample
+  ["mountain peak", "waterfall", "blooming wildflowers", "babbling brook", "sunrise", "sunset", "birdsong", "howling coyotes"].sample
 end
+
+def create_violation
+  ["discarded granola bar wrapper", "live campfire", "someone feeding wildlife", "someone approaching wildlife", "someone carving initials into a tree", "discarded orange peel", "someone picking flowers"].sample
+end
+
+##left off here##
 
 ## RNG Generator ##
 def roll_dice(number_of_dice, size_of_dice)
@@ -32,7 +52,7 @@ def roll_dice(number_of_dice, size_of_dice)
 end
 
 ############### DICE ROLLS ###############
-def has_monster?
+def has_violation?
   if roll_dice(2, 6) >= 8
     true
   else
@@ -109,9 +129,9 @@ while damage_points > 0 and not escaped
   end
   # Player Commands
   if player_action == "m"
-    current_room = create_room
+    current_room = create_park
     number_of_rooms_explored += 1
-    monster = has_monster?
+    monster = has_violation?
     escaped = has_escaped?
   elsif player_action == "s"
     if has_treasure?
@@ -124,7 +144,7 @@ while damage_points > 0 and not escaped
     ## Rigged Condition - searching triggers monsters ##
 
     if not monster
-      monster = has_monster?
+      monster = has_violation?
     end
   elsif player_action == "f"
     if defeat_monster?
