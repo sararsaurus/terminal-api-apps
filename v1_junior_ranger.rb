@@ -46,14 +46,6 @@ def has_finished?
 end
 
 def lightning_strike?
-  if roll_dice(2, 6) >= 8
-    true
-  else
-    false
-  end
-end
-
-def take_cover?
   if roll_dice(2, 6) >= 5
     true
   else
@@ -61,8 +53,16 @@ def take_cover?
   end
 end
 
+def take_cover?
+  if roll_dice(2, 6) >= 8
+    true
+  else
+    false
+  end
+end
+
 def has_treasure?
-  if roll_dice(2, 6) >= 1
+  if roll_dice(2, 6) >= 6
     true
   else
     false
@@ -90,27 +90,18 @@ while damage_points > 0 and not finished
 
   actions = ["m - move", "s - search"]
   puts "You're on trail # #{number_of_trails_explored}!"
-  puts current_trail
+  # puts current_trail
   # hopefully can connect to API here
 
   # weather Encounter
   if weather
     puts "Yikes! Storm's coming down!"
-    damage_points -= 1
+    damage_points -= 0.5
     actions << "k - keep going"
-    puts "What do you do? (#{actions.join(",")}): "
-    player_action = gets.chomp
-    if player_action == "k"
-      if take_cover?
-        weather = false
-        puts "You got lucky and the storm passed!"
-      elsif lightning_strike?
-        weather = false
-        puts "You got zapped by lightning!"
-        damage_points -= 2
-      end
-    end
   end
+
+  puts "What do you do? (#{actions.join(",")}): "
+  player_action = gets.chomp
 
   # Player Commands
   if player_action == "m"
@@ -124,7 +115,15 @@ while damage_points > 0 and not finished
       puts "WOW! You found #{treasure.sample}!"
       treasure_list += "#{treasure.sample}, "
     else
-      puts "Just a nice day on the trail"
+      puts "Just a nice day on the trail!"
+    end
+    if player_action == "k"
+      if take_cover?
+        puts "You got lucky and the storm passed!"
+      elsif lightning_strike?
+        puts "You got zapped by lightning!"
+        damage_points -= 1
+      end
     end
   end
 end
