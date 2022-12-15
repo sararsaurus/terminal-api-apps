@@ -17,9 +17,7 @@ def create_trail
   # "You are in a room. You see a door."
 end
 
-def treasure
-  ["mountain peaks", "birdsong", "waterfall", "field of wildflowers", "alpine lake", "sunrise", "sunset"].sample
-end
+treasure = ["mountain peaks", "birdsong", "a waterfall", "a field of wildflowers", "an alpine lake", "sunrise", "sunset"]
 
 ## RNG Generator ##
 def roll_dice(number_of_dice, size_of_dice)
@@ -48,7 +46,7 @@ def has_finished?
 end
 
 def lightning_strike?
-  if roll_dice(2, 6) >= 9
+  if roll_dice(2, 6) >= 8
     true
   else
     false
@@ -56,7 +54,7 @@ def lightning_strike?
 end
 
 def take_cover?
-  if roll_dice(2, 6) >= 2
+  if roll_dice(2, 6) >= 5
     true
   else
     false
@@ -74,6 +72,7 @@ end
 ############### Variables ###############
 number_of_trails_explored = 1
 treasure_count = 0
+treasure_list = ""
 damage_points = 5
 finished = false
 weather = false
@@ -90,23 +89,29 @@ while damage_points > 0 and not finished
   #game code
 
   actions = ["m - move", "s - search"]
-  puts "Room # #{number_of_trails_explored}"
+  puts "You're on trail # #{number_of_trails_explored}!"
   puts current_trail
+  # hopefully can connect to API here
 
   # weather Encounter
   if weather
-    puts "Ah! Real weathers!"
-    actions << "f - fight"
-  end
-
-  print "What do you do? (#{actions.join(",")}): "
-  player_action = gets.chomp
-
-  # weather Attack
-  if weather and lightning_strike?
+    puts "Yikes! Storm's coming down!"
     damage_points -= 1
-    puts "OUCH! You got hit!"
+    actions << "k - keep going"
+    puts "What do you do? (#{actions.join(",")}): "
+    player_action = gets.chomp
+    if player_action == "k"
+      if take_cover?
+        weather = false
+        puts "You got lucky and the storm passed!"
+      elsif lightning_strike?
+        weather = false
+        puts "You got zapped by lightning!"
+        damage_points -= 2
+      end
+    end
   end
+
   # Player Commands
   if player_action == "m"
     current_trail = create_trail
@@ -115,38 +120,22 @@ while damage_points > 0 and not finished
     finished = has_finished?
   elsif player_action == "s"
     if has_treasure?
-      puts "WOW! You found #{treasure_count} treasure!"
       treasure_count += 1
+      puts "WOW! You found #{treasure.sample}!"
+      treasure_list += "#{treasure.sample}, "
     else
-      puts "You searched, but you found NOTHING!"
+      puts "Just a nice day on the trail"
     end
-
-    ## Rigged Condition - searching triggers weather ##
-
-    if not weather
-      weather = has_weather?
-    end
-  elsif player_action == "f"
-    if take_cover?
-      weather = false
-      puts "you took cover and escaped the storm!"
-    else
-      puts "you missed!"
-    end
-  else
-    puts "try again"
   end
 end
 
 # Output for end of game
 if damage_points > 0
   puts "Good job, you made it!"
-  puts "You explored #{number_of_trails_explored} rooms"
-  puts "and found #{treasure_count} treasures!"
+  puts "You explored #{number_of_trails_explored} trails"
+  puts "and found #{treasure_list}!"
 else
   puts "Oh no! You didn't make it"
-  puts "You explored #{number_of_trails_explored} rooms"
-  puts "and found #{treasure_count} treasures before your doom."
-  puts "You tried so hard, and got so far...."
-  puts "but in the end, it doesn't even matter"
+  puts "You explored #{number_of_trails_explored} trails"
+  puts "and found #{treasure_list}."
 end
