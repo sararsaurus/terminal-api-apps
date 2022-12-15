@@ -27,18 +27,18 @@
 ##################################################################
 
 ## Create Park ##
-def create_park
-  "Hello, Junior Ranger! You are just who we need to protect and preserve our National Parks!"
-  # "You are in a room. You see a door."
+def create_room
+  # "Hello, Junior Ranger! You are just who we need to protect and preserve our National Parks!"
+  "You are in a room. You see a door."
 end
 
 def treasure
   ["mountain peak", "waterfall", "blooming wildflowers", "babbling brook", "sunrise", "sunset", "birdsong", "howling coyotes"].sample
 end
 
-def create_violation
-  ["discarded granola bar wrapper", "live campfire", "someone feeding wildlife", "someone approaching wildlife", "someone carving initials into a tree", "discarded orange peel", "someone picking flowers"].sample
-end
+# def create_violation
+#   ["discarded granola bar wrapper", "live campfire", "someone feeding wildlife", "someone approaching wildlife", "someone carving initials into a tree", "discarded orange peel", "someone picking flowers"].sample
+# end
 
 ##left off here##
 
@@ -52,7 +52,7 @@ def roll_dice(number_of_dice, size_of_dice)
 end
 
 ############### DICE ROLLS ###############
-def has_violation?
+def has_monster?
   if roll_dice(2, 6) >= 8
     true
   else
@@ -129,14 +129,14 @@ while damage_points > 0 and not escaped
   end
   # Player Commands
   if player_action == "m"
-    current_room = create_park
+    current_room = create_room
     number_of_rooms_explored += 1
-    monster = has_violation?
+    monster = has_monster?
     escaped = has_escaped?
   elsif player_action == "s"
     if has_treasure?
-      puts "WOW! You found #{treasure_count} treasure!"
       treasure_count += 1
+      puts "WOW! You found #{treasure_count} treasure!"
     else
       puts "You searched, but you found NOTHING!"
     end
@@ -144,7 +144,7 @@ while damage_points > 0 and not escaped
     ## Rigged Condition - searching triggers monsters ##
 
     if not monster
-      monster = has_violation?
+      monster = has_monster?
     end
   elsif player_action == "f"
     if defeat_monster?
