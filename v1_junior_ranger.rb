@@ -117,13 +117,12 @@ while damage_points > 0 and not finished
     else
       puts "Just a nice day on the trail!"
     end
-    if player_action == "k"
-      if take_cover?
-        puts "You got lucky and the storm passed!"
-      elsif lightning_strike?
-        puts "You got zapped by lightning!"
-        damage_points -= 1
-      end
+  elsif player_action == "k"
+    if take_cover?
+      puts "You got lucky and the storm passed!"
+    else
+      puts "You got zapped by lightning!"
+      damage_points -= 1
     end
   end
 end
@@ -134,7 +133,7 @@ if damage_points > 0
   puts "You explored #{number_of_trails_explored} trails"
   puts "and found #{treasure_list}!"
 else
-  puts "Oh no! You didn't make it"
+  puts "Oh no! The storms forced you to turn back."
   puts "You explored #{number_of_trails_explored} trails"
   puts "and found #{treasure_list}."
 end
