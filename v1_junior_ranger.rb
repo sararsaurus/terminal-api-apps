@@ -22,93 +22,57 @@ end
 treasure = ["mountain peaks", "birdsong", "a waterfall", "a field of wildflowers", "an alpine lake", "sunrise", "sunset"]
 
 ## Create RPS ##
+def rock_paper_scissors
+  puts "Packy the Pika loves finding friends on the trail!"
+  puts "Play rock paper scissors with Packy!"
+  # Variables
+  player_score = 0
+  pika_score = 0
+  round_number = 5
 
-player_score = 0;
-computer_score = 0;
-roundNumber = 5;
+  # Computer's random choice generator
+  def get_computer_choice
+    ["rock", "paper", "scissors"].sample
+  end
 
-// Computer's random choice generator
+  ### 5-round game, generating a new player & computer selection each time.
+  while round_number > 0
+    puts "Rock, paper, or scissors?"
+    player_selection = gets.chomp.downcase
+    computer_selection = get_computer_choice
 
-function getComputerChoice() {
-  let result;
-  result = Math.floor(Math.random() * 3);
-  if (result === 0) {
-    return "rock";
-  } else if (result === 1) {
-    return "paper";
-  } else {
-    return "scissors";
-  }
-}
+    # Tie
+    if (player_selection == "rock" && computer_selection == "rock") || (player_selection == "paper" && computer_selection == "paper") || (player_selection == "scissors" && computer_selection == "scissors")
+      round_number -= 1
+      puts "Tie! It's #{player_score} human to #{pika_score} pika, with #{round_number} games left!"
+      # Player wins
+    elsif (player_selection == "rock" && computer_selection == "scissors") || (player_selection == "paper" && computer_selection == "rock") || (player_selection == "scissors" && computer_selection == "paper")
+      player_score += 1
+      round_number -= 1
+      puts "You win! It's #{player_score} human to #{pika_score} pika, with #{round_number} games left!"
+      # Computer wins
+    elsif (player_selection == "rock" && computer_selection == "paper") || (player_selection == "paper" && computer_selection == "scissors") || (player_selection == "scissors" && computer_selection == "rock")
+      pika_score += 1
+      round_number -= 1
+      puts "Packy wins! It's #{player_score} human to #{pika_score} pika, with #{round_number} games left!"
+    end
+  end
 
-// 5-round game, generating a new player & computer selection each time.
+  ### Tabulate overall winner at end
+  def overall_winner(player_score, pika_score)
+    if player_score > pika_score
+      puts "Human wins! Thanks for playing!"
+    elsif pika_score > player_score
+      puts "Packy the Pika wins! Thanks for playing!"
+    else
+      puts "Wow, it's a tie! Thanks for playing!"
+    end
+  end
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    let playerSelection = prompt("Rock, paper, or scissors?").toLowerCase();
-    let computerSelection = getComputerChoice();
-    playRound(playerSelection, computerSelection);
-  }
-}
+  ## Call the game
 
-// Single round with scoreboard
-function playRound(playerSelection, computerSelection) {
-  // Tie
-  if (
-    (playerSelection === "rock" && computerSelection === "rock") ||
-    (playerSelection === "paper" && computerSelection === "paper") ||
-    (playerSelection === "scissors" && computerSelection === "scissors")
-  ) {
-    player_score += 0;
-    computer_score += 0;
-    roundNumber -= 1;
-    console.log("Tie!");
-    console.log(`human: ${player_score}`);
-    console.log(`machine: ${computer_score}`);
-    console.log(`number of games left: ${roundNumber}`);
-
-    // Player wins
-  } else if (
-    (playerSelection === "rock" && computerSelection === "scissors") ||
-    (playerSelection === "paper" && computerSelection === "rock") ||
-    (playerSelection === "scissors" && computerSelection === "paper")
-  ) {
-    player_score += 1;
-    roundNumber -= 1;
-    console.log(`You win! ${playerSelection} beats ${computerSelection}.`);
-    console.log(`human: ${player_score}`);
-    console.log(`machine: ${computer_score}`);
-    console.log(`number of games left: ${roundNumber}`);
-
-    // Computer wins
-  } else if (
-    (playerSelection === "rock" && computerSelection === "paper") ||
-    (playerSelection === "paper" && computerSelection === "scissors") ||
-    (playerSelection === "scissors" && computerSelection === "rock")
-  ) {
-    computer_score += 1;
-    roundNumber -= 1;
-    console.log(`You lose! ${computerSelection} beats ${playerSelection}.`);
-    console.log(`human: ${player_score}`);
-    console.log(`machine: ${computer_score}`);
-    console.log(`number of games left: ${roundNumber}`);
-  }
-}
-
-// Tabulate overall winner at the end
-function overallWinner(player_score, computer_score) {
-  if (player_score > computer_score) {
-    console.log(`Human wins!`);
-  } else if (computer_score > player_score) {
-    console.log(`Machines win!`);
-  } else {
-    console.log(`Tie!`);
-  }
-}
-
-console.log(game());
-console.log(overallWinner(player_score, computer_score));
-
+  puts overall_winner(player_score, pika_score)
+end
 
 ############### RNG GENERATOR ###############
 def roll_dice(number_of_dice, size_of_dice)
@@ -161,7 +125,7 @@ def has_treasure?
 end
 
 def has_pika?
-  if roll_dice(2, 6) >= 8
+  if roll_dice(2, 6) >= 9
     true
   else
     false
@@ -202,7 +166,7 @@ while damage_points > 0 and not finished
 
   # pika Encounter
   if pika
-    puts "You turned a corner and found Rocky the Pika!"
+    puts "You turned a corner and found Packy the Pika!"
     actions << "p - play a game"
   end
 
@@ -232,7 +196,7 @@ while damage_points > 0 and not finished
       damage_points -= 1
     end
   elsif player_action == "p"
-    #insert rock paper scissors
+    puts rock_paper_scissors
   end
 end
 
