@@ -1,3 +1,5 @@
+# This currently works with each separate line regardless of formatting. But it overwrites itself each time (obviously).
+
 def intake_data(data_value)
   # turn intake string into array
   data_value = data_value.split(",")
